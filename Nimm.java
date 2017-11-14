@@ -22,8 +22,6 @@ import java.util.*;
  */
 public class Nimm {
     private GameState currentGameState;
-    static int[] humanHistory; // previous turns of the human player
-    static int[] AIHistory; // previous turns of the AI player
     static ArrayList<MoveAndScore> successorMoves;
 
     private int getAIMove() {
@@ -123,8 +121,6 @@ public class Nimm {
         try {
             int count = Integer.parseInt(c);
             currentGameState = new GameState(count, count);
-            humanHistory = new int[currentGameState.getBound()+1];
-            AIHistory = new int[currentGameState.getBound()+1];
             System.out.println();
             System.out.println("The pile has " +count+ " tokens.");
             System.out.print("The maximum you may take in any turn is "+currentGameState.getBound());
@@ -175,7 +171,7 @@ public class Nimm {
                 System.out.println("There aren't that many tokens left in the pile!");
                 continue;
             }
-            if(humanHistory[humanMove] == 1) {
+            if(currentGameState.getHumanState()[humanMove] == 1) {
                 System.out.println("You cannot take the same amount twice!");
                 continue;
             }
@@ -201,8 +197,7 @@ public class Nimm {
             currentGameState.update(new Move(AImove), 2);
             System.out.println("* AI takes " + AImove);
             System.out.println(currentGameState.getCount() + " tokens left");
-            AIHistory[AImove] = 1;
-            
+
             // terminal test for AI player
             if ( currentGameState.getCount() == 0 ) {
                 System.out.println("\n* The pile is empty. \n\n** The AI wins! **");
